@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EST Salé - Portail Scolarité Numérique (UM5)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        est: {
+                            blue: '#003366',
+                            teal: '#00A896',
+                            light: '#F4F7FA',
+                            dark: '#0A192F',
+                            gold: '#D4AF37'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #00A896;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- TOP BAR ACADÉMIQUE -->
+    <div class="bg-est-dark text-white text-xs py-1.5 px-4 sm:px-8 flex justify-between items-center border-b border-gray-800">
+        <div class="flex items-center space-x-4">
+            <span><i class="fas fa-university text-est-teal mr-1"></i> Université Mohammed V de Rabat</span>
+            <span class="hidden md:inline text-gray-400">|</span>
+            <span class="hidden md:inline"><i class="fas fa-map-marker-alt text-est-teal mr-1"></i> Salé, Maroc</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <span id="topbar-status" class="flex items-center">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
+                Portail Scolarité Ouvert
+            </span>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                
+                <!-- BRANDING LOGO EST SALÉ (VECTOR SVG) -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchSection('accueil')">
+                    <!-- SVG LOGO EST SALÉ / UM5 OFFICIAL VECTOR -->
+                    <div class="w-12 h-12 flex-shrink-0">
+                        <svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm">
+                            <rect width="120" height="120" rx="24" fill="#003366"/>
+                            <!-- Couronne académique / Étoile -->
+                            <path d="M60 18 L68 35 L86 38 L73 51 L76 69 L60 60 L44 69 L47 51 L34 38 L52 35 Z" fill="#D4AF37"/>
+                            <!-- Livre ouvert / Université -->
+                            <path d="M30 75 Q60 65 90 75 L90 92 Q60 82 30 92 Z" fill="#00A896"/>
+                            <path d="M60 68 L60 87" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+                            <!-- Text EST -->
+                            <text x="60" y="106" font-family="Inter, sans-serif" font-size="16" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="2">ESTS</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-1">
+                            <span class="text-xl font-extrabold text-est-dark leading-tight tracking-tight">EST Salé</span>
+                            <span class="bg-est-blue text-white text-[9px] font-bold px-1.5 py-0.5 rounded">UM5</span>
+                        </div>
+                        <span class="text-xs text-est-teal font-semibold uppercase tracking-wider block">Scolarité Numérique</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-3">
+                    <button onclick="switchSection('accueil')" class="nav-btn text-est-blue font-bold px-3 py-2 rounded-lg hover:bg-blue-50 transition flex items-center">
+                        <i class="fas fa-home mr-1.5"></i> Accueil
+                    </button>
+                    <button onclick="switchSection('demandes')" class="nav-btn text-gray-600 hover:text-est-blue font-semibold px-3 py-2 rounded-lg hover:bg-gray-100 transition flex items-center">
+                        <i class="fas fa-file-invoice mr-1.5"></i> Demandes
+                    </button>
+                    <button onclick="switchSection('emplois')" class="nav-btn text-gray-600 hover:text-est-blue font-semibold px-3 py-2 rounded-lg hover:bg-gray-100 transition flex items-center">
+                        <i class="fas fa-calendar-alt mr-1.5"></i> Emplois du temps
+                    </button>
+                    <button onclick="switchSection('formations')" class="nav-btn text-gray-600 hover:text-est-blue font-semibold px-3 py-2 rounded-lg hover:bg-gray-100 transition flex items-center">
+                        <i class="fas fa-graduation-cap mr-1.5"></i> Formations
+                    </button>
+                    <button onclick="switchSection('reclamations')" class="nav-btn text-gray-600 hover:text-est-blue font-semibold px-3 py-2 rounded-lg hover:bg-gray-100 transition flex items-center">
+                        <i class="fas fa-headset mr-1.5"></i> Réclamations
+                    </button>
+                </nav>
+
+                <!-- Auth / Profile Status Bar -->
+                <div class="hidden md:flex items-center space-x-3" id="auth-header-container">
+                    <!-- Non connecté (Bouton Connexion) -->
+                    <button id="btn-login-trigger" onclick="toggleModal('login-modal')" class="bg-est-blue hover:bg-blue-900 text-white text-sm font-bold py-2.5 px-5 rounded-xl shadow-md transition flex items-center space-x-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Connexion UM5</span>
+                    </button>
+
+                    <!-- Connecté (Profil Étudiant) -->
+                    <div id="user-profile-widget" class="hidden flex items-center space-x-3 bg-gray-100 border border-gray-200 rounded-xl p-1.5 pr-3">
+                        <div class="w-9 h-9 rounded-lg bg-est-teal text-white flex items-center justify-center font-bold text-sm shadow-sm" id="widget-initials">
+                            RB
+                        </div>
+                        <div class="text-left leading-tight">
+                            <p class="text-xs font-bold text-gray-900" id="widget-name">Riham Belcaid</p>
+                            <p class="text-[10px] text-est-teal font-semibold" id="widget-email">riham_belcaid@um5.ac.ma</p>
+                        </div>
+                        <button onclick="logoutUser()" title="Se déconnecter" class="text-gray-400 hover:text-red-600 ml-1 p-1 transition">
+                            <i class="fas fa-power-off text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center space-x-2">
+                    <button id="mobile-auth-btn" onclick="toggleModal('login-modal')" class="p-2 text-est-blue text-sm font-bold bg-blue-50 rounded-lg">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-md text-gray-600 hover:text-est-blue">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchSection('accueil'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md font-medium text-est-blue bg-blue-50">
+                <i class="fas fa-home w-6"></i> Accueil
+            </button>
+            <button onclick="switchSection('demandes'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md font-medium text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-file-invoice w-6"></i> Demandes en ligne
+            </button>
+            <button onclick="switchSection('emplois'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md font-medium text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-calendar-alt w-6"></i> Emplois du temps
+            </button>
+            <button onclick="switchSection('formations'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md font-medium text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-graduation-cap w-6"></i> Formations
+            </button>
+            <button onclick="switchSection('reclamations'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md font-medium text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-headset w-6"></i> Support & Réclamations
+            </button>
+            
+            <div class="pt-2 border-t border-gray-200" id="mobile-user-actions">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow">
+
+        <!-- SECTION 1: ACCUEIL / HERO & BANNER -->
+        <section id="sec-accueil" class="content-section">
+            <!-- Hero Banner -->
+            <div class="relative bg-gradient-to-r from-est-dark via-est-blue to-blue-900 text-white py-14 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-10 pointer-events-none hidden lg:block">
+                    <!-- Grand Filigrane Logo -->
+                    <svg viewBox="0 0 120 120" class="w-96 h-96">
+                        <path d="M60 18 L68 35 L86 38 L73 51 L76 69 L60 60 L44 69 L47 51 L34 38 L52 35 Z" fill="#ffffff"/>
+                    </svg>
+                </div>
+                
+                <div class="max-w-7xl mx-auto relative z-10">
+                    <div class="max-w-3xl">
+                        <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-xs font-semibold text-est-teal mb-4">
+                            <i class="fas fa-shield-alt text-est-gold"></i>
+                            <span>Portail Authentifié @um5.ac.ma</span>
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+                            Digitalisation du Service Scolarité de l'EST Salé
+                        </h1>
+                        <p class="text-base sm:text-lg text-blue-100 mb-8 leading-relaxed">
+                            Accédez à vos documents officiels, vos emplois du temps personnalisés et gérez vos réclamations administratives en ligne en toute sécurité avec votre compte institutionnel UM5.
+                        </p>
+
+                        <!-- Actions banner selon l'état de connexion -->
+                        <div id="hero-action-container" class="flex flex-wrap gap-4">
+                            <!-- Injected dynamically via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Étudiant Authentifié (Affiché si connecté) -->
+            <div id="student-dashboard-card" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20 hidden">
+                <div class="bg-white rounded-2xl p-6 shadow-xl border border-gray-200">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-100 pb-4 mb-6 gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-14 h-14 bg-gradient-to-br from-est-blue to-est-teal text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow-md" id="dash-avatar">
+                                RB
+                            </div>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <h2 class="text-xl font-bold text-gray-900" id="dash-student-name">Riham Belcaid</h2>
+                                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center">
+                                        <i class="fas fa-check-circle mr-1"></i> Inscrit (2025/2026)
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Email: <span class="font-semibold text-gray-700" id="dash-student-email">riham_belcaid@um5.ac.ma</span> | 
+                                    CNE/Apogée: <span class="font-semibold text-gray-700" id="dash-student-cne">G13409821</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 px-4 py-3 rounded-xl border border-blue-100 text-right w-full md:w-auto">
+                            <span class="text-xs font-semibold text-est-blue uppercase block">Filière Actuelle</span>
+                            <span class="text-sm font-extrabold text-est-dark" id="dash-student-filiere">DUT - Marketing Digital (S3)</span>
+                        </div>
+                    </div>
+
+                    <!-- Métriques Rapides Étudiant -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100 text-center">
+                            <p class="text-xs text-gray-500 font-medium">Demandes Active(s)</p>
+                            <p class="text-2xl font-bold text-est-blue mt-1" id="dash-count-requests">1</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100 text-center">
+                            <p class="text-xs text-gray-500 font-medium">Documents Validés</p>
+                            <p class="text-2xl font-bold text-emerald-600 mt-1" id="dash-count-validated">2</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100 text-center">
+                            <p class="text-xs text-gray-500 font-medium">Réclamations</p>
+                            <p class="text-2xl font-bold text-amber-600 mt-1" id="dash-count-reclamations">0</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100 text-center">
+                            <p class="text-xs text-gray-500 font-medium">Prochain Examen</p>
+                            <p class="text-xs font-bold text-est-dark mt-2">15 Jan 2027</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar (Général) -->
+            <div id="public-stats-bar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-blue-100 text-est-blue rounded-xl flex items-center justify-center text-xl">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">4,200+</p>
+                            <p class="text-xs text-gray-500 font-medium">Étudiants Inscrits (UM5)</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-teal-100 text-est-teal rounded-xl flex items-center justify-center text-xl">
+                            <i class="fas fa-file-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">18,400</p>
+                            <p class="text-xs text-gray-500 font-medium">Demandes Numériques Traitées</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">18</p>
+                            <p class="text-xs text-gray-500 font-medium">Filières DUT & LP</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">&lt; 24h</p>
+                            <p class="text-xs text-gray-500 font-medium">Délai Traitement Moyen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Access Services Grid -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Services Scolarité Principaux</h2>
+                        <p class="text-sm text-gray-500">Demandes administratives signées électroniquement</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Service 1 -->
+                    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-blue-50 text-est-blue flex items-center justify-center text-xl mb-4 group-hover:bg-est-blue group-hover:text-white transition">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Attestation de Scolarité</h3>
+                            <p class="text-gray-600 text-sm mb-4">Document officiel certifiant votre inscription pour l'année universitaire 2025/2026.</p>
+                        </div>
+                        <button onclick="requireAuthAction(() => openDocumentModal('Attestation de Scolarité'))" class="w-full py-2.5 bg-gray-50 hover:bg-est-blue hover:text-white text-est-blue font-semibold text-sm rounded-xl border border-gray-200 transition">
+                            Faire une demande
+                        </button>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-teal-50 text-est-teal flex items-center justify-center text-xl mb-4 group-hover:bg-est-teal group-hover:text-white transition">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Convention de Stage</h3>
+                            <p class="text-gray-600 text-sm mb-4">Génération automatique des trois exemplaires signés pour stage d'initiation ou PFE.</p>
+                        </div>
+                        <button onclick="requireAuthAction(() => openDocumentModal('Convention de Stage'))" class="w-full py-2.5 bg-gray-50 hover:bg-est-teal hover:text-white text-est-teal font-semibold text-sm rounded-xl border border-gray-200 transition">
+                            Générer la convention
+                        </button>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4 group-hover:bg-amber-500 group-hover:text-white transition">
+                                <i class="fas fa-list-numeric"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Relevé de Notes</h3>
+                            <p class="text-gray-600 text-sm mb-4">Obtenez votre relevé des modules et semestres validés à l'EST Salé.</p>
+                        </div>
+                        <button onclick="requireAuthAction(() => openDocumentModal('Relevé de Notes'))" class="w-full py-2.5 bg-gray-50 hover:bg-amber-500 hover:text-white text-amber-600 font-semibold text-sm rounded-xl border border-gray-200 transition">
+                            Demander le relevé
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: DEMANDES EN LIGNE (E-SERVICES) -->
+        <section id="sec-demandes" class="content-section hidden">
+            <div class="bg-gray-100 border-b border-gray-200 py-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Demandes de Documents Administratifs</h1>
+                    <p class="text-gray-600 text-sm mt-1">E-Services réservés aux étudiants enregistrés avec leur adresse @um5.ac.ma.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Document List Selection -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <h2 class="text-lg font-bold text-gray-800 mb-2">Sélectionnez le document à commander :</h2>
+                        
+                        <!-- Doc Item 1 -->
+                        <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-est-teal transition">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-lg bg-blue-100 text-est-blue flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fas fa-file-contract"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900">Attestation de Scolarité</h3>
+                                    <p class="text-xs text-gray-500 mt-1">Valide pour la bourse, le transport et démarches administratives.</p>
+                                </div>
+                            </div>
+                            <button onclick="requireAuthAction(() => openDocumentModal('Attestation de Scolarité'))" class="w-full sm:w-auto px-4 py-2 bg-est-blue text-white rounded-lg text-sm font-semibold hover:bg-blue-800 transition">
+                                Demander
+                            </button>
+                        </div>
+
+                        <!-- Doc Item 2 -->
+                        <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-est-teal transition">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-lg bg-teal-100 text-est-teal flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fas fa-list-ol"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900">Relevé de Notes Général</h3>
+                                    <p class="text-xs text-gray-500 mt-1">Relevé officiel de l'ensemble des modules validés.</p>
+                                </div>
+                            </div>
+                            <button onclick="requireAuthAction(() => openDocumentModal('Relevé de Notes'))" class="w-full sm:w-auto px-4 py-2 bg-est-blue text-white rounded-lg text-sm font-semibold hover:bg-blue-800 transition">
+                                Demander
+                            </button>
+                        </div>
+
+                        <!-- Doc Item 3 -->
+                        <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-est-teal transition">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900">Convention de Stage (PFE / Initiation)</h3>
+                                    <p class="text-xs text-gray-500 mt-1">Tripartite (Étudiant, EST Salé, Entreprise d'accueil).</p>
+                                </div>
+                            </div>
+                            <button onclick="requireAuthAction(() => openDocumentModal('Convention de Stage'))" class="w-full sm:w-auto px-4 py-2 bg-est-blue text-white rounded-lg text-sm font-semibold hover:bg-blue-800 transition">
+                                Demander
+                            </button>
+                        </div>
+
+                        <!-- Doc Item 4 -->
+                        <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-est-teal transition">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-xl flex-shrink-0">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900">Carte d'Étudiant (Duplicata)</h3>
+                                    <p class="text-xs text-gray-500 mt-1">Renouvellement en cas de perte ou détérioration.</p>
+                                </div>
+                            </div>
+                            <button onclick="requireAuthAction(() => openDocumentModal('Carte d\'étudiant'))" class="w-full sm:w-auto px-4 py-2 bg-est-blue text-white rounded-lg text-sm font-semibold hover:bg-blue-800 transition">
+                                Demander
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar: Mes Demandes (Chargé dynamiquement via LocalStorage) -->
+                    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm h-fit">
+                        <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center justify-between">
+                            <span>Historique Mes Demandes</span>
+                            <span class="text-xs font-semibold text-est-teal bg-teal-50 px-2.5 py-1 rounded-full">Mon Compte</span>
+                        </h2>
+
+                        <div class="space-y-3" id="recent-requests-list">
+                            <!-- Injected by JavaScript -->
+                        </div>
+
+                        <button onclick="toggleModal('suivi-modal')" class="w-full mt-6 py-2.5 border border-gray-300 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition">
+                            <i class="fas fa-search mr-1 text-est-teal"></i> Rechercher un Code de Suivi
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: EMPLOIS DU TEMPS -->
+        <section id="sec-emplois" class="content-section hidden">
+            <div class="bg-gray-100 border-b border-gray-200 py-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Emplois du Temps & Plannings</h1>
+                    <p class="text-gray-600 text-sm mt-1">Consultez les plannings de vos cours et TP pour le semestre en cours.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Filters -->
+                <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 uppercase mb-2">Filière</label>
+                            <select id="filter-dept" onchange="filterSchedule()" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-est-teal">
+                                <option value="mkt" selected>DUT - Marketing Digital</option>
+                                <option value="info">DUT - Génie Informatique</option>
+                                <option value="indus">DUT - Génie Industriel</option>
+                                <option value="bio">DUT - Génie Biologique</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 uppercase mb-2">Semestre / Année</label>
+                            <select id="filter-level" onchange="filterSchedule()" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-est-teal">
+                                <option value="s3" selected>Semestre 3 (S3)</option>
+                                <option value="s1">Semestre 1 (S1)</option>
+                                <option value="s4">Semestre 4 (S4)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 uppercase mb-2">Groupe</label>
+                            <select id="filter-group" onchange="filterSchedule()" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-est-teal">
+                                <option value="g1">Groupe 1 (G1)</option>
+                                <option value="g2">Groupe 2 (G2)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Table -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="p-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-2 bg-gray-50">
+                        <span class="font-bold text-gray-800 text-sm flex items-center">
+                            <i class="fas fa-calendar-check text-est-teal mr-2"></i> Planning Marketing Digital - S3 (2025-2026)
+                        </span>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="window.print()" class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-print mr-1"></i> Imprimer
+                            </button>
+                            <button onclick="downloadMockPDF('Emploi_Du_Temps_ESTS.pdf')" class="px-3 py-1.5 bg-est-blue text-white rounded-lg text-xs font-semibold hover:bg-blue-800">
+                                <i class="fas fa-file-pdf mr-1"></i> Télécharger PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-est-dark text-white">
+                                    <th class="p-3 font-semibold border-r border-gray-700 w-24 text-center">Jour</th>
+                                    <th class="p-3 font-semibold border-r border-gray-700 text-center">08h30 - 10h15</th>
+                                    <th class="p-3 font-semibold border-r border-gray-700 text-center">10h30 - 12h15</th>
+                                    <th class="p-3 font-semibold border-r border-gray-700 text-center bg-gray-800 w-16">Pause</th>
+                                    <th class="p-3 font-semibold border-r border-gray-700 text-center">14h30 - 16h15</th>
+                                    <th class="p-3 font-semibold text-center">16h30 - 18h15</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 font-medium">
+                                <tr>
+                                    <td class="p-3 bg-gray-50 font-bold text-center border-r border-gray-200">Lundi</td>
+                                    <td class="p-3 border-r border-gray-200">
+                                        <div class="bg-blue-50 border-l-4 border-est-blue p-2 rounded">
+                                            <p class="font-bold text-est-blue">Stratégie Marketing Digital</p>
+                                            <p class="text-xs text-gray-600">Pr. BENNANI - Amphi C</p>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 border-r border-gray-200">
+                                        <div class="bg-blue-50 border-l-4 border-est-blue p-2 rounded">
+                                            <p class="font-bold text-est-blue">E-Commerce & CMS</p>
+                                            <p class="text-xs text-gray-600">Pr. ALAMI - Salle M2</p>
+                                        </div>
+                                    </td>
+                                    <td class="p-2 bg-gray-100 text-center text-xs text-gray-400 font-bold border-r border-gray-200">Pause</td>
+                                    <td class="p-3 border-r border-gray-200">
+                                        <div class="bg-teal-50 border-l-4 border-est-teal p-2 rounded">
+                                            <p class="font-bold text-est-teal">TP SEO & Analytics</p>
+                                            <p class="text-xs text-gray-600">Labo Info 4</p>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 text-center text-gray-400">---</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 bg-gray-50 font-bold text-center border-r border-gray-200">Mardi</td>
+                                    <td class="p-3 border-r border-gray-200">
+                                        <div class="bg-purple-50 border-l-4 border-purple-600 p-2 rounded">
+                                            <p class="font-bold text-purple-700">Publicité & Social Media</p>
+                                            <p class="text-xs text-gray-600">Mme TAZI - Salle M1</p>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 border-r border-gray-200 text-center text-gray-400">---</td>
+                                    <td class="p-2 bg-gray-100 text-center text-xs text-gray-400 font-bold border-r border-gray-200">Pause</td>
+                                    <td class="p-3 border-r border-gray-200">
+                                        <div class="bg-amber-50 border-l-4 border-amber-500 p-2 rounded">
+                                            <p class="font-bold text-amber-800">Anglais des Affaires</p>
+                                            <p class="text-xs text-gray-600">Salle 12</p>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 text-center text-gray-400">---</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 bg-gray-50 font-bold text-center border-r border-gray-200">Mercredi</td>
+                                    <td class="p-3 border-r border-gray-200">
+                                        <div class="bg-teal-50 border-l-4 border-est-teal p-2 rounded">
+                                            <p class="font-bold text-est-teal">TP Creation Content SVG/Design</p>
+                                            <p class="text-xs text-gray-600">Labo Multi 2</p>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 border-r border-gray-200">
+                                        <div class="bg-teal-50 border-l-4 border-est-teal p-2 rounded">
+                                            <p class="font-bold text-est-teal">TP Email Marketing</p>
+                                            <p class="text-xs text-gray-600">Labo Multi 2</p>
+                                        </div>
+                                    </td>
+                                    <td class="p-2 bg-gray-100 text-center text-xs text-gray-400 font-bold border-r border-gray-200">Pause</td>
+                                    <td class="p-3 border-r border-gray-200 text-center text-gray-400">---</td>
+                                    <td class="p-3 text-center text-gray-400">---</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: FORMATIONS -->
+        <section id="sec-formations" class="content-section hidden">
+            <div class="bg-gray-100 border-b border-gray-200 py-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Formations & Filières EST Salé</h1>
+                    <p class="text-gray-600 text-sm mt-1">Offre de formation initiale (DUT & Licence Professionnelle).</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                        <span class="bg-blue-100 text-est-blue text-xs font-bold px-2.5 py-1 rounded-full uppercase">DUT</span>
+                        <h3 class="text-xl font-bold text-gray-900 mt-3 mb-2">Marketing Digital & E-Business</h3>
+                        <p class="text-gray-600 text-sm">Formation spécialisée dans la transformation digitale des entreprises, le webmarketing et le e-commerce.</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                        <span class="bg-teal-100 text-est-teal text-xs font-bold px-2.5 py-1 rounded-full uppercase">DUT</span>
+                        <h3 class="text-xl font-bold text-gray-900 mt-3 mb-2">Génie Informatique (GI)</h3>
+                        <p class="text-gray-600 text-sm">Développement d'applications, génie logiciel, réseaux informatiques et cybersécurité.</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                        <span class="bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase">DUT</span>
+                        <h3 class="text-xl font-bold text-gray-900 mt-3 mb-2">Génie Industriel & Maintenance</h3>
+                        <p class="text-gray-600 text-sm">Maintenance des équipements industriels, automatisation et gestion de production.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: RECLAMATIONS -->
+        <section id="sec-reclamations" class="content-section hidden">
+            <div class="bg-gray-100 border-b border-gray-200 py-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Espace Réclamations & Support</h1>
+                    <p class="text-gray-600 text-sm mt-1">Soumettez vos demandes de vérification de note ou réclamations administratives.</p>
+                </div>
+            </div>
+
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-md">
+                    <form id="reclamationForm" onsubmit="handleReclamationSubmit(event)">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Nom & Prénom</label>
+                                <input type="text" id="rec-name" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-est-teal focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email Institutionnel</label>
+                                <input type="email" id="rec-email" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-est-teal focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Sujet de la réclamation</label>
+                            <select id="rec-subject" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-est-teal focus:outline-none">
+                                <option value="">Choisir un sujet</option>
+                                <option>Erreur sur Relevé de Notes / Examen</option>
+                                <option>Problème d'inscription administrative</option>
+                                <option>Absence non justifiée enregistrée</option>
+                                <option>Problème avec la Carte Étudiante</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Détails explicatifs</label>
+                            <textarea id="rec-details" rows="4" required placeholder="Précisez le module, l'examen ou l'élément concerné..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-est-teal focus:outline-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 bg-est-blue hover:bg-blue-900 text-white font-bold rounded-xl shadow-lg transition">
+                            <i class="fas fa-paper-plane mr-2"></i> Soumettre la Réclamation
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER AVEC LOGO ET INFORMATIONS DE L'ÉCOLE -->
+    <footer class="bg-est-dark text-white border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10">
+                            <svg viewBox="0 0 120 120" class="w-full h-full">
+                                <rect width="120" height="120" rx="24" fill="#00A896"/>
+                                <path d="M60 18 L68 35 L86 38 L73 51 L76 69 L60 60 L44 69 L47 51 L34 38 L52 35 Z" fill="#ffffff"/>
+                                <text x="60" y="102" font-family="Inter, sans-serif" font-size="16" font-weight="900" fill="#ffffff" text-anchor="middle">ESTS</text>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-bold text-base block">EST Salé</span>
+                            <span class="text-[10px] text-est-teal font-semibold">Université Mohammed V</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        Projet de digitalisation du Service Scolarité réalisé pour l'École Supérieure de Technologie de Salé.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Services Numériques</h4>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li><a href="#" onclick="switchSection('demandes'); return false;" class="hover:text-est-teal">Attestations de Scolarité</a></li>
+                        <li><a href="#" onclick="switchSection('demandes'); return false;" class="hover:text-est-teal">Conventions de Stage PFE</a></li>
+                        <li><a href="#" onclick="switchSection('emplois'); return false;" class="hover:text-est-teal">Planning des Cours & Examens</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Contact Scolarité</h4>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li><i class="fas fa-map-marker-alt w-4 text-est-teal"></i> BP 227 Salé Médina, Maroc</li>
+                        <li><i class="fas fa-envelope w-4 text-est-teal"></i> scolarite@ests.um5.ac.ma</li>
+                        <li><i class="fas fa-globe w-4 text-est-teal"></i> ests.um5.ac.ma</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Statut Déploiement</h4>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-900/60 border border-emerald-500/30 text-emerald-400">
+                        <i class="fab fa-github mr-1.5"></i> Ready for GitHub Pages
+                    </span>
+                    <p class="text-[11px] text-gray-400 mt-3">Compte de test pré-rempli: <br><strong class="text-white">riham_belcaid@um5.ac.ma</strong></p>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row justify-between items-center">
+                <p>&copy; 2026 EST Salé - Université Mohammed V de Rabat. Réalisé par le groupe de projet Digitalisation Scolarité.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: AUTHENTIFICATION EMAIL INSTITUTIONNEL (@um5.ac.ma) -->
+    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="toggleModal('login-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-est-blue text-white rounded-2xl mx-auto flex items-center justify-center text-2xl font-bold mb-3 shadow-lg">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-gray-900">Connexion Étudiante UM5</h3>
+                <p class="text-xs text-gray-500 mt-1">Saisissez votre adresse email institutionnelle officielle</p>
+            </div>
+
+            <form onsubmit="handleLoginSubmit(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email Institutionnel (@um5.ac.ma)</label>
+                        <div class="relative">
+                            <input type="email" id="login-email" required value="riham_belcaid@um5.ac.ma" placeholder="nom_prenom@um5.ac.ma" class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-est-teal focus:outline-none">
+                            <i class="fas fa-envelope absolute left-3.5 top-3.5 text-gray-400"></i>
+                        </div>
+                        <p id="email-validation-msg" class="text-[11px] text-amber-600 mt-1 hidden">L'adresse doit se terminer obligatoirement par @um5.ac.ma</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Mot de passe ENT</label>
+                        <div class="relative">
+                            <input type="password" required value="••••••••••••" class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-est-teal focus:outline-none">
+                            <i class="fas fa-lock absolute left-3.5 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button type="submit" class="w-full py-3.5 bg-est-blue hover:bg-blue-900 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Se connecter au Portail</span>
+                    </button>
+                </div>
+
+                <p class="text-[11px] text-center text-gray-400 mt-4">
+                    En cas de problème d'accès, contactez le centre informatique de l'EST Salé.
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: FORMULAIRE DE DEMANDE DE DOCUMENT -->
+    <div id="document-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button onclick="toggleModal('document-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h3 class="text-xl font-bold text-gray-900 mb-1" id="modal-doc-title">Formulaire de Demande</h3>
+            <p class="text-xs text-gray-500 mb-6">Informations pré-remplies depuis votre compte institutionnel.</p>
+
+            <form onsubmit="submitDocumentRequest(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Nom Complet</label>
+                        <input type="text" id="doc-student-name" readonly class="w-full p-2.5 bg-gray-100 border border-gray-300 rounded-lg text-sm font-semibold text-gray-700">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Email Institutionnel</label>
+                        <input type="text" id="doc-student-email" readonly class="w-full p-2.5 bg-gray-100 border border-gray-300 rounded-lg text-sm font-semibold text-gray-700">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Nombre d'exemplaires</label>
+                        <select id="doc-copies" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-est-teal focus:outline-none">
+                            <option>1 Copie</option>
+                            <option>2 Copies</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Motif de la demande</label>
+                        <input type="text" id="doc-reason" placeholder="Ex: Bourse / Stage / Administration" required class="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-est-teal focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" onclick="toggleModal('document-modal')" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100">
+                        Annuler
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-est-blue text-white rounded-lg text-sm font-semibold hover:bg-blue-800 transition">
+                        Valider et Envoyer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: SUIVI DE DEMANDE -->
+    <div id="suivi-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="toggleModal('suivi-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Suivi de Demande</h3>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Code de suivi (Ex: #EST-8842)</label>
+                    <div class="flex space-x-2">
+                        <input type="text" id="tracking-input" placeholder="EST-..." class="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-est-teal focus:outline-none">
+                        <button onclick="searchTracking()" class="px-4 py-2 bg-est-teal text-white rounded-lg font-semibold text-sm hover:bg-teal-700">
+                            Vérifier
+                        </button>
+                    </div>
+                </div>
+
+                <div id="tracking-result" class="hidden p-4 bg-gray-50 border border-gray-200 rounded-xl mt-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></span>
+                        <span class="font-bold text-sm text-gray-800" id="result-status">Traitée & Prête</span>
+                    </div>
+                    <p class="text-xs text-gray-600" id="result-details">Votre document a été validé électroniquement par la scolarité de l'EST Salé.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION SYSTEM -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-est-dark text-white px-5 py-3.5 rounded-xl shadow-2xl z-50 hidden flex items-center space-x-3 border border-gray-700">
+        <i class="fas fa-check-circle text-est-teal text-lg"></i>
+        <span id="toast-message" class="text-sm font-semibold">Opération effectuée avec succès !</span>
+    </div>
+
+    <!-- SCRIPT DE GESTION COMPLETE (PERSISTENCE LOCALSTORAGE) -->
+    <script>
+        // État utilisateur par défaut (Session enregistrée dans localStorage)
+        let currentUser = JSON.parse(localStorage.getItem('ests_user')) || null;
+
+        // Historique des demandes par défaut
+        let userRequests = JSON.parse(localStorage.getItem('ests_requests')) || [
+            { id: '#EST-8842', doc: 'Attestation de Scolarité', date: '10/11/2026', status: 'Validé', ready: true },
+            { id: '#EST-7621', doc: 'Convention de Stage (Capgemini)', date: '04/11/2026', status: 'En cours', ready: false }
+        ];
+
+        // Démarrage de la page
+        window.onload = function() {
+            updateUI();
+            renderRequests();
+        };
+
+        // Mise à jour globale de l'interface selon l'état de connexion
+        function updateUI() {
+            const authHeader = document.getElementById('auth-header-container');
+            const loginBtn = document.getElementById('btn-login-trigger');
+            const profileWidget = document.getElementById('user-profile-widget');
+            const studentDashboard = document.getElementById('student-dashboard-card');
+            const publicStats = document.getElementById('public-stats-bar');
+            const heroAction = document.getElementById('hero-action-container');
+            const mobileUserActions = document.getElementById('mobile-user-actions');
+
+            if (currentUser) {
+                // Utilisateur Connecté
+                loginBtn.classList.add('hidden');
+                profileWidget.classList.remove('hidden');
+                studentDashboard.classList.remove('hidden');
+
+                // Initiales
+                const names = currentUser.name.split(' ');
+                const initials = names.map(n => n[0]).join('').toUpperCase();
+                document.getElementById('widget-initials').innerText = initials;
+                document.getElementById('widget-name').innerText = currentUser.name;
+                document.getElementById('widget-email').innerText = currentUser.email;
+
+                // Remplir le Dashboard Étudiant
+                document.getElementById('dash-avatar').innerText = initials;
+                document.getElementById('dash-student-name').innerText = currentUser.name;
+                document.getElementById('dash-student-email').innerText = currentUser.email;
+                document.getElementById('dash-student-cne').innerText = currentUser.cne || 'G13409821';
+                document.getElementById('dash-student-filiere').innerText = currentUser.filiere || 'DUT - Marketing Digital (S3)';
+
+                // Boutons Hero
+                heroAction.innerHTML = `
+                    <button onclick="switchSection('demandes')" class="bg-est-teal hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition flex items-center">
+                        <i class="fas fa-file-invoice mr-2"></i> Faire une Demande
+                    </button>
+                    <button onclick="switchSection('emplois')" class="bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-xl backdrop-blur-md transition flex items-center border border-white/20">
+                        <i class="fas fa-calendar-alt mr-2"></i> Voir Mon Emploi du Temps
+                    </button>
+                `;
+
+                // Mobile
+                mobileUserActions.innerHTML = `
+                    <div class="px-3 py-2 text-xs font-bold text-gray-700">${currentUser.name} (${currentUser.email})</div>
+                    <button onclick="logoutUser()" class="w-full text-left px-3 py-2 text-xs text-red-600 font-bold">
+                        <i class="fas fa-power-off mr-2"></i> Déconnexion
+                    </button>
+                `;
+            } else {
+                // Utilisateur Non Connecté
+                loginBtn.classList.remove('hidden');
+                profileWidget.classList.add('hidden');
+                studentDashboard.classList.add('hidden');
+
+                heroAction.innerHTML = `
+                    <button onclick="toggleModal('login-modal')" class="bg-est-teal hover:bg-teal-600 text-white font-bold py-3.5 px-7 rounded-xl shadow-lg transition flex items-center text-sm">
+                        <i class="fas fa-user-lock mr-2"></i> Se Connecter avec email @um5.ac.ma
+                    </button>
+                `;
+
+                mobileUserActions.innerHTML = `
+                    <button onclick="toggleModal('login-modal'); toggleMobileMenu()" class="w-full bg-est-blue text-white py-2.5 rounded-xl font-bold text-center block text-sm">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Connexion UM5
+                    </button>
+                `;
+            }
+        }
+
+        // Soumission Formulaire Authentification (@um5.ac.ma)
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('login-email').value.trim();
+            const errorMsg = document.getElementById('email-validation-msg');
+
+            // Validation stricte du domaine institutionnel @um5.ac.ma
+            if (!emailInput.toLowerCase().endsWith('@um5.ac.ma')) {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            errorMsg.classList.add('hidden');
+
+            // Extraire le nom à partir de l'email si ce n'est pas Riham
+            let name = "Riham Belcaid";
+            let filiere = "DUT - Marketing Digital (S3)";
+            let cne = "G13409821";
+
+            if (!emailInput.toLowerCase().includes('riham')) {
+                const parts = emailInput.split('@')[0].split('_');
+                name = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+                filiere = "DUT - Génie Informatique (S3)";
+                cne = "K" + Math.floor(10000000 + Math.random() * 90000000);
+            }
+
+            currentUser = {
+                email: emailInput,
+                name: name,
+                filiere: filiere,
+                cne: cne
+            };
+
+            // Sauvegarder dans localStorage pour GitHub Pages
+            localStorage.setItem('ests_user', JSON.stringify(currentUser));
+
+            toggleModal('login-modal');
+            updateUI();
+            showToast('Bienvenue ' + currentUser.name + ' ! Connexion réussie.');
+        }
+
+        // Déconnexion
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('ests_user');
+            updateUI();
+            showToast('Vous vous êtes déconnecté.');
+        }
+
+        // Action nécessitant la connexion
+        function requireAuthAction(actionCallback) {
+            if (!currentUser) {
+                toggleModal('login-modal');
+                showToast('Veuillez vous connecter avec votre email @um5.ac.ma');
+            } else {
+                actionCallback();
+            }
+        }
+
+        // Rendu de la liste des demandes dans le LocalStorage
+        function renderRequests() {
+            const container = document.getElementById('recent-requests-list');
+            container.innerHTML = '';
+
+            userRequests.forEach(req => {
+                const item = document.createElement('div');
+                item.className = 'p-3.5 bg-gray-50 rounded-xl border border-gray-200';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center text-xs text-gray-500 mb-1">
+                        <span class="font-mono font-bold">${req.id}</span>
+                        <span class="${req.ready ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'} font-bold px-2 py-0.5 rounded text-[10px]">
+                            ${req.status}
+                        </span>
+                    </div>
+                    <h4 class="font-bold text-xs text-gray-900">${req.doc}</h4>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-[10px] text-gray-400">Demandé le ${req.date}</span>
+                        ${req.ready ? `
+                            <button onclick="downloadMockPDF('${req.doc}.pdf')" class="text-[11px] bg-est-teal text-white px-2 py-1 rounded hover:bg-teal-700 transition">
+                                <i class="fas fa-download mr-1"></i> PDF
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Modal Formulaire Document
+        function openDocumentModal(docTitle) {
+            document.getElementById('modal-doc-title').innerText = 'Demander : ' + docTitle;
+            document.getElementById('doc-student-name').value = currentUser ? currentUser.name : '';
+            document.getElementById('doc-student-email').value = currentUser ? currentUser.email : '';
+            toggleModal('document-modal');
+        }
+
+        // Soumission Demande Document
+        function submitDocumentRequest(event) {
+            event.preventDefault();
+            const docTitle = document.getElementById('modal-doc-title').innerText.replace('Demander : ', '');
+            const randomRef = '#EST-' + Math.floor(1000 + Math.random() * 9000);
+            const today = new Date().toLocaleDateString('fr-FR');
+
+            const newReq = {
+                id: randomRef,
+                doc: docTitle,
+                date: today,
+                status: 'En traitement',
+                ready: false
+            };
+
+            userRequests.unshift(newReq);
+            localStorage.setItem('ests_requests', JSON.stringify(userRequests));
+
+            renderRequests();
+            toggleModal('document-modal');
+            showToast('Demande ' + randomRef + ' transmise avec succès !');
+        }
+
+        // Soumission Réclamation
+        function handleReclamationSubmit(event) {
+            event.preventDefault();
+            const ref = '#REC-' + Math.floor(1000 + Math.random() * 9000);
+            event.target.reset();
+            showToast('Réclamation transmise. Numéro de suivi : ' + ref);
+        }
+
+        // Navigation Sections
+        function switchSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.classList.add('hidden'));
+
+            const target = document.getElementById('sec-' + sectionId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Modal Utility
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            }
+        }
+
+        // Mobile Menu Utility
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // Toast Notification
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
+        // Tracking Simulation
+        function searchTracking() {
+            const val = document.getElementById('tracking-input').value.trim();
+            const resultBox = document.getElementById('tracking-result');
+            if (val.length > 0) {
+                resultBox.classList.remove('hidden');
+                document.getElementById('result-status').innerText = 'Demande ' + val.toUpperCase() + ' : En cours de signature';
+            }
+        }
+
+        function downloadMockPDF(filename) {
+            showToast('Téléchargement du document officiel ' + filename);
+        }
+
+        function filterSchedule() {
+            showToast('Emploi du temps actualisé.');
+        }
+    </script>
+</body>
+</html>
